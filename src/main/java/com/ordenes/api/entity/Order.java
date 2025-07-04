@@ -3,6 +3,7 @@ package com.ordenes.api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +25,8 @@ public class Order {
     @Column(nullable = false)
     private String destination;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
 
     @ManyToOne
     private Driver driver;

@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface DriverRepository extends JpaRepository<Driver, UUID> {
-    List<Driver> findByActiveDriver();
+    List<Driver> findByActiveTrue();
 }
