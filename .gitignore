@@ -1,0 +1,13 @@
+# Java
+*.class
+*.log
+
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# IDEs
+*.iml
+.idea/
+
