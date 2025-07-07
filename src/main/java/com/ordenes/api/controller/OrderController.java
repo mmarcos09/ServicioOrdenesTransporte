@@ -1,6 +1,6 @@
 package com.ordenes.api.controller;
 import com.ordenes.api.dto.OrderRequest;
-import com.ordenes.api.entity.Order;
+import com.ordenes.api.entity.Orders;
 import com.ordenes.api.entity.OrderStatus;
 import com.ordenes.api.service.OrderService;
 import jakarta.validation.Valid;
@@ -24,33 +24,33 @@ public class OrderController {
 
     // Crear orden
     @PostMapping("/createDriver")
-    public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderRequest dto) {
+    public ResponseEntity<Orders> createOrder(@Valid @RequestBody OrderRequest dto) {
         return ResponseEntity.ok(orderService.create(dto));
     }
 
     //Listar ordenes
     @GetMapping
-    public ResponseEntity<List<Order>> getAll(@RequestParam(required = false) OrderStatus status, @RequestParam(required = false) String origin, @RequestParam(required = false) String destination) {
+    public ResponseEntity<List<Orders>> getAll(@RequestParam(required = false) OrderStatus status, @RequestParam(required = false) String origin, @RequestParam(required = false) String destination) {
         return ResponseEntity.ok(orderService.getFilteredOrders(status, origin, destination));
     }
 
     //Obtener orden por id
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable UUID id) {
+    public ResponseEntity<Orders> getOrderById(@PathVariable UUID id) {
         return orderService.getById(id)
                 .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     //Asignar conductor
     @PutMapping("/{id}/assign")
-    public ResponseEntity<Order> assignDriver(@PathVariable UUID id, @RequestBody UUID driverId) {
-        Optional<Order> updated = orderService.assignDriver(id, driverId);
+    public ResponseEntity<Orders> assignDriver(@PathVariable UUID id, @RequestBody UUID driverId) {
+        Optional<Orders> updated = orderService.assignDriver(id, driverId);
         return updated.map(ResponseEntity::ok).orElse(ResponseEntity.badRequest().build());
     }
 
     //Cambiar estatus orden
     @PatchMapping("/{id}/updateStatus")
-    public ResponseEntity<Order> updateStatus(@PathVariable UUID id, @RequestBody String status) throws  Exception {
+    public ResponseEntity<Orders> updateStatus(@PathVariable UUID id, @RequestBody String status) throws  Exception {
         return ResponseEntity.ok(orderService.updateStatus(id, status));
     }
 

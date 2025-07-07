@@ -2,8 +2,9 @@ package com.ordenes.api.service;
 
 import com.ordenes.api.dto.OrderRequest;
 import com.ordenes.api.entity.Driver;
-import com.ordenes.api.entity.Order;
+import com.ordenes.api.entity.Orders;
 import com.ordenes.api.entity.OrderStatus;
+import com.ordenes.api.entity.Orders;
 import com.ordenes.api.repository.DriverRepository;
 import com.ordenes.api.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -24,23 +25,23 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order create(OrderRequest dto) {
-        Order order = new Order();
+    public Orders create(OrderRequest dto) {
+        Orders order = new Orders();
         order.setOrigin(dto.getOrigin());
         order.setDestination(dto.getDestination());
         return orderRepository.save(order);
     }
 
-    public Optional<Order> getById(UUID id) {
+    public Optional<Orders> getById(UUID id) {
         return orderRepository.findById(id);
     }
 
-    public List<Order> getAll() {
+    public List<Orders> getAll() {
         return orderRepository.findAll();
     }
 
-    public List<Order> getFilteredOrders(OrderStatus status, String origin, String destination) {
-        List<Order> result = orderRepository.findAll();
+    public List<Orders> getFilteredOrders(OrderStatus status, String origin, String destination) {
+        List<Orders> result = orderRepository.findAll();
 
         if (status != null) {
             result.removeIf(o -> !o.getStatus().equals(status));
@@ -55,12 +56,12 @@ public class OrderService {
         return result;
     }
 
-    public Optional<Order> assignDriver(UUID orderId, UUID driverId) {
-        Optional<Order> orderOpt = orderRepository.findById(orderId);
+    public Optional<Orders> assignDriver(UUID orderId, UUID driverId) {
+        Optional<Orders> orderOpt = orderRepository.findById(orderId);
         Optional<Driver> driverOpt = driverRepository.findById(driverId);
 
         if (orderOpt.isPresent() && driverOpt.isPresent()) {
-            Order order = orderOpt.get();
+            Orders order = orderOpt.get();
             Driver driver = driverOpt.get();
 
             if (order.getStatus() == OrderStatus.CREATED && driver.isActive()) {
@@ -72,8 +73,8 @@ public class OrderService {
         return Optional.empty() ;
     }
 
-    public Order updateStatus(UUID orderId, String newStatus) throws Exception {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new Exception("Orden no encontrada"));
+    public Orders updateStatus(UUID orderId, String newStatus) throws Exception {
+        Orders order = orderRepository.findById(orderId).orElseThrow(() -> new Exception("Orden no encontrada"));
 
         OrderStatus status = OrderStatus.valueOf(newStatus);;
 
