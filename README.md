@@ -23,3 +23,32 @@ Este proyecto incluye un script SQL "db/ordenes_transporte.sql" con la estructur
 El archivo "docker-compose.yml" está configurado para ejecutar ese script automáticamente al iniciar MariaDB, usando:
 volumes:
 - ./db:/docker-entrypoint-initdb.d
+
+### Guía para pruebas con Postman
+## Requisitos
+
+- Proyecto compilado: mvn clean package -DskipTests
+- Contenedores en ejecución: docker-compose up
+- Puerto de la app expuesto: http://localhost:8080
+
+### Endpoints:
+## DriverController
+
+### 1. Crear un conductor (POST)
+
+- URL: http://localhost:8080/api/drivers/createDriver
+- Método: POST
+- Headers: Content-Type: application/json
+- **Body (raw / JSON)**:
+
+# json entrada
+{
+  "name": "Juan Pérez",
+  "active": true
+}
+# Respuesta esperada (201/200)
+{
+  "id": 1,
+  "name": "Juan Pérez",
+  "active": true
+}

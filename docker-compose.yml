@@ -1,19 +1,28 @@
+## Define los servicios a levantar, en este caso una base de datos y la app
 services:
   db:
+    ## imagen de una base de datos
     image: mariadb:11
+    ##Nombre personalizado al contenedor
     container_name: mariadb
+    ## Variables de entorno | contraseña de la base y nonmbre de la bd
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: ordenes_transporte
     ports:
       - "3308:3306"
     volumes:
+      ## Guarda los datos de MariaDB
       - mariadb_data:/var/lib/mysql
+      ## Docker ejecuta automaticamente scripts SQL que esten en la carpeta /db
       - ./db:/docker-entrypoint-initdb.d
 
   app:
+    ## Construye una imagen desde el mismo directorio
     build: .
+    #nombre del contenedor de la app
     container_name: servicio_ordenes
+    ## Este servicio depende de que la base de datos esté iniciada
     depends_on:
       - db
     ports:
@@ -24,5 +33,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
     command: ["java", "-jar", "target/ServicioOrdenesTransporte-0.0.1-SNAPSHOT.jar"]
 
+## Volumen persistente de MariaDB
 volumes:
   mariadb_data:
