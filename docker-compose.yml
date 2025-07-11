@@ -36,3 +36,5 @@ services:
 ## Volumen persistente de MariaDB
 volumes:
   mariadb_data:
+
+    ##path fisico para respaldo

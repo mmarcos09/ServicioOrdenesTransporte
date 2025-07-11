@@ -23,14 +23,14 @@ public class OrderController {
     }
 
     // Crear orden
-    @PostMapping("/createDriver")
+    @PostMapping("/createOrder")
     public ResponseEntity<Orders> createOrder(@Valid @RequestBody OrderRequest dto) {
         return ResponseEntity.ok(orderService.create(dto));
     }
 
     //Listar ordenes
-    @GetMapping
-    public ResponseEntity<List<Orders>> getAll(@RequestParam(required = false) OrderStatus status, @RequestParam(required = false) String origin, @RequestParam(required = false) String destination) {
+    @GetMapping("/ordersList")
+    public ResponseEntity<List<Orders>> getOrdersList(@RequestParam(required = false) OrderStatus status, @RequestParam(required = false) String origin, @RequestParam(required = false) String destination) {
         return ResponseEntity.ok(orderService.getFilteredOrders(status, origin, destination));
     }
 

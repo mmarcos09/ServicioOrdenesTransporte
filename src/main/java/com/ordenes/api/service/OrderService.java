@@ -21,10 +21,6 @@ public class OrderService {
     private OrderRepository orderRepository;
     private DriverRepository driverRepository;
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
-
     public Orders create(OrderRequest dto) {
         Orders order = new Orders();
         order.setOrigin(dto.getOrigin());
@@ -36,7 +32,7 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public List<Orders> getAll() {
+    public List<Orders> getAllOrders() {
         return orderRepository.findAll();
     }
 
